@@ -1,75 +1,61 @@
 <template>
-  <div>
-    <Header />
-    <section class="content-home">
-      <input-search @search="search" />
-      <b-row v-if="records.length > 0">
-        <b-col 
-          lg="4" md="6" sm="12"
-          class="mb-4"
-          v-for="item in records"
-          :key="item.id"
-        >
-          <card-notice :item="item" />
-        </b-col>
-      </b-row>
-      <b-row v-else>
-        <b-col 
-          lg="12" md="12" sm="12">
-          <div>
-            No se encontrarón resultados de <strong>{{ value }}</strong>
-          </div>
-        </b-col>
-      </b-row>
-    </section>
-  </div>
+  <router-link :to="{ name: 'Detail', params: { slug: item.slug }}">
+    <b-card class="card-notice overflow-hidden p-0 h-100" no-body v-if="item">
+    <img :src="loadImg(item.img)" :alt="item.title" />
+    <div class="contend-card">
+      <p class="caption">
+        <strong>Por</strong> {{ item.caption }}
+      </p>
+      <div class="content-circles mt-1">
+        <div class="content-circles">
+          <span class="circle1" />
+          <span class="circle-title"> Covid </span>
+        </div>
+        <div class="content-circles">
+          <span class="circle2" />
+          <span class="circle-title"> Salud </span>
+        </div>
+      </div>
+      <h3 class="title-card">
+        {{ item.title }}
+      </h3>
+      <p class="card-paragraph">
+        {{ item.description }}
+      </p>
+    </div>
+    </b-card>
+  </router-link>
+  
 </template>
 
 <script>
-import { BRow, BCol } from "bootstrap-vue";
-import Header from "@/components/header/Header";
-import InputSearch from "@/components/search/InputSearch";
-import CardNotice from "@/components/card/CardNotice"
+import { BCard } from "bootstrap-vue";
 export default {
-  inject: ["noticeRepository"],
-  name: "Home",
+  props: {
+    item: {
+      type: Object,
+      detault: null,
+    },
+  },
   components: {
-    Header,
-    InputSearch,
-    CardNotice,
-    BRow,
-    BCol,
+    BCard,
   },
   data() {
-    return {
-      records: [],
-      value: null,
-    }
+    return {};
   },
   methods: {
-    async loadNotices() {
-      const me = this;
-      const { data } = await me.noticeRepository.getAll();
-      me.records = data;
+    loadImg(path) {
+      const img = require(`@/assets/images/${path}`);
+      return img;
     },
-    async search(value) {
-      const me = this;
-      me.value = value;
-      const res = await me.noticeRepository.search(value);
-      me.records = res;
-    }
-  },
-  mounted() {
-    const me = this;
-    me.loadNotices();
   },
 };
 </script>
 <style lang="css">
-
 .card-notice {
   border-radius: 1rem;
   box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.16), 0 2px 10px 0 rgba(0, 0, 0, 0.12);
+  cursor: po;
 }
 
 .card-notice img {
@@ -122,18 +108,17 @@ export default {
   font-family: var(--fuente-roboto);
   font-size: 22px;
   font-weight: 700;
-  letter-spacing: .6px;
-  overflow: hidden; text-overflow: ellipsis;
-  display: -webkit-box; -webkit-line-clamp: 2;
-  -webkit-box-orient: vertical;
+  letter-spacing: 0.6px;
 }
 .card-paragraph {
   color: var(--black-color);
   font-family: var(--fuente-poppins);
   font-size: 16px;
-  letter-spacing: .6px;
-  overflow: hidden; text-overflow: ellipsis;
-  display: -webkit-box; -webkit-line-clamp: 3;
+  letter-spacing: 0.6px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
   -webkit-box-orient: vertical;
 }
 /* ............. */

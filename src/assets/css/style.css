@@ -1,0 +1,205 @@
+:root{
+	/*------ Colores */
+  /*----Principales */
+  --white-color: #ffff;
+  --black-color: #000000;
+  --primary-color: #0098ff;
+  --second-color: #FF0040;
+  --third-color: #131f55;
+  --black-light-color: #ebebeb;
+  --gray-light-color: #a8a4a4;
+  --white_rgb: 255, 255, 255;
+  --gray-13: #eeeeee;
+  --gray-14: #dddddd;
+  --gray-1_rgb: 51, 41, 39;  
+
+	/* ------- Tipografia */
+  --fuente-roboto: 'Roboto', sans-serif;
+  --fuente-poppins: 'Poppins', sans-serif;
+}
+
+/*Estilos generales*/
+html {
+  box-sizing: border-box;
+}
+*,
+*:before,
+*:after {
+  box-sizing: inherit;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  min-height: 100vh;
+  background-color: var(--primary-color);
+}
+
+a {
+  text-decoration: none;
+}
+
+button:focus,
+input:focus
+{
+  outline: none;
+  box-shadow: none !important;
+}
+
+input::-webkit-inner-spin-button
+{
+  -webkit-appearance: none;
+}
+
+.form-control:focus {
+  box-shadow: none;
+}
+
+textarea:focus,
+input[type="text"]:focus,
+input[type="password"]:focus,
+input[type="datetime"]:focus,
+input[type="datetime-local"]:focus,
+input[type="date"]:focus,
+input[type="month"]:focus,
+input[type="time"]:focus,
+input[type="week"]:focus,
+input[type="number"]:focus,
+input[type="email"]:focus,
+input[type="url"]:focus,
+input[type="search"]:focus,
+input[type="tel"]:focus,
+input[type="color"]:focus,
+.uneditable-input:focus {   
+  border: 2px solid var(--primary-color);
+  outline: 0 none;
+}
+/* --------------------- */
+/* Input */
+.label_input {
+  font-family: var(--fuente-poppins);
+  font-style: normal;
+  font-weight: normal;
+  font-size: 16px;
+  line-height: 20px;
+  letter-spacing: .1px;
+  color: var(--black-color);
+  margin-bottom: 10px;
+}
+
+.form-control {
+  background: var(--white-color);
+  border: 2px solid var(--gray-light-color);
+  box-sizing: border-box;
+  border-radius: .5rem;
+  margin-bottom: 20px;
+  height: 40px;
+  padding: 15px;
+  width: 100%;
+  font-size: 16px;
+  -webkit-border-radius: .5rem;
+  -moz-border-radius: .5rem;
+  -ms-border-radius: .5rem;
+  -o-border-radius: .5rem;
+}
+
+.form-control::placeholder {
+  color: var(--gray-light-color);
+}
+
+.form-control.error {
+  border: 2px solid #AD3C40;
+}
+
+.text_error {
+  font-family: var(--fuente-poppins);
+  font-style: normal;
+  font-weight: normal;
+  font-size: 14px;
+  line-height: 21px;
+  text-align: center;
+  letter-spacing: -0.103101px;
+  color: #AD3C40;
+  font-size: 14px;
+  position: relative;
+  top: -20px;
+  font-weight: bold;
+}
+
+.btn_primary {
+  background-color: var(--primary-color);
+  border: none;
+  font-size: 18px;
+  width: 100%;
+  height: 40px;
+  font-weight: bold;
+  border-radius: 1rem;
+  color: var(--white-color);
+  cursor: pointer;
+}
+
+.btn_secondary {
+  background-color: var(--white-color);
+  border: 1px solid var(--primary-color);
+  width: 100%;
+  height: 40px;
+  font-size: 18px;
+  border-radius: 1rem;
+  font-weight: bold;
+  color: var(--primary-color);
+  cursor: pointer;
+}
+
+.btn_primary:hover {
+  background-color: #43a6e7 !important;
+}
+.btn_primary:disabled {
+  background-color: #69b0df ;
+}
+.btn_secondary:hover {
+  background-color: var(--gray-14) !important;
+  border: 1px solid var(--gray-14) !important;
+}
+
+.content-home {
+  border-top-left-radius: 1.5rem;
+  border-top-right-radius: 1.5rem;
+  background-color: var(--white-color);
+  padding: 40px;
+  position: relative;
+  top: -30px;
+  border: 1px solid var(--gray-14);
+}
+
+/* style sweetalert */
+.validationMixin.swal2-icon-success {
+  background-color: #a5dc86 !important;
+}
+
+.validationMixin.swal2-icon-error {
+  background-color: #f27474 !important;
+}
+
+.validationMixin.swal2-icon-warning {
+  background-color: #f8bb86 !important;
+}
+
+.validationMixin.swal2-icon-info {
+  background-color: #3fc3ee !important;
+}
+
+.validationMixin.swal2-icon-question {
+  background-color: #87adbd !important;
+}
+
+.validationMixin .swal2-title {
+  color: black;
+}
+
+.validationMixin .swal2-close {
+  color: black;
+}
+
+.validationMixin .swal2-html-container {
+  color: black;
+}
