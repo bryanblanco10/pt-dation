@@ -123,20 +123,21 @@ export default {
         const { text, status } = await me.authRepository.login(me.formData);
         me.isBusy = false;
         if (status == 200) {
-          me.statusSuccess(text);
+          me.statusSuccess();
         } else {
           messageSweetAlert("error", text);
         }
       }, 3000);
     },
-    statusSuccess(text) {
+    statusSuccess() {
       const me = this;
-      messageSweetAlert("success", text);
       const token = generateToken();
       localStorage.setItem("access_token", token);
       localStorage.setItem("authenticated", true);
-      me.changeAuthenticated(me.formData, true);
-      me.$router.push("/inicio");
+      localStorage.setItem("user", JSON.stringify(me.formData));
+      me.changeAuthenticated({ ...me.formData, authenticated: true });
+      window.location.reload();
+      // me.$router.push("/inicio");
     },
   },
 };

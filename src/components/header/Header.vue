@@ -21,7 +21,8 @@
         const me = this;
         localStorage.removeItem("access_token");
         localStorage.removeItem("authenticated");
-        me.changeAuthenticated(null, false);
+        localStorage.removeItem("user");
+        me.changeAuthenticated({ ...null, authenticated: true });
         me.$router.push("/inicio-sesion");
       }
     },

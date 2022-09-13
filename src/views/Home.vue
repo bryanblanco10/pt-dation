@@ -4,23 +4,29 @@
     <section class="content-home">
       <input-search @search="search" />
       <b-row v-if="records.length > 0">
-        <b-col 
-          lg="4" md="6" sm="12"
+        <b-col
+          lg="4"
+          md="6"
+          sm="12"
           class="mb-4"
           v-for="item in records"
           :key="item.id"
         >
-          <card-notice :item="item" />
+          <card-notice :item="item" @addRemoveFavorite="addRemoveFavorite" />
         </b-col>
       </b-row>
       <b-row v-else>
-        <b-col 
-          lg="12" md="12" sm="12">
+        <b-col lg="12" md="12" sm="12">
           <div>
             No se encontrarón resultados de <strong>{{ value }}</strong>
           </div>
         </b-col>
       </b-row>
+      <div class="d-flex justify-content-center" v-if="isVisible">
+        <button class="btn_primary w-25" @click.prevent="lastPage()">
+          Ver más
+        </button>
+      </div>
     </section>
   </div>
 </template>
@@ -29,7 +35,9 @@
 import { BRow, BCol } from "bootstrap-vue";
 import Header from "@/components/header/Header";
 import InputSearch from "@/components/search/InputSearch";
-import CardNotice from "@/components/card/CardNotice"
+import CardNotice from "@/components/card/CardNotice";
+import { mapState } from "vuex";
+
 export default {
   inject: ["noticeRepository"],
   name: "Home",
@@ -44,20 +52,67 @@ export default {
     return {
       records: [],
       value: null,
-    }
+      page: 3,
+      isVisible: true,
+    };
+  },
+  computed: {
+    ...mapState("user", ["user"]),
   },
   methods: {
     async loadNotices() {
       const me = this;
-      const { data } = await me.noticeRepository.getAll();
-      me.records = data;
+      const res = await me.noticeRepository.getAll(me.page);
+      me.fillFavorities(res);
     },
     async search(value) {
       const me = this;
       me.value = value;
       const res = await me.noticeRepository.search(value);
       me.records = res;
-    }
+    },
+    fillFavorities(data) {
+      const me = this;
+      if (localStorage.getItem("favorities")) {
+        const favorities = JSON.parse(localStorage.getItem("favorities"));
+
+        data.forEach((record) => {
+          favorities.forEach((favorite) => {
+            if (me.user.email == favorite.email && record.id == favorite.id) {
+              record.isLike = true;
+            }
+          });
+          me.records.push(record);
+        });
+      } else {
+        me.records = data;
+      }
+      me.records.length >= 10 ? me.isVisible = false : me.isVisible = true;
+    },
+    addRemoveFavorite(id) {
+      const me = this;
+      me.records.forEach((el) => {
+        if (el.id == id) {
+          el.isLike ? (el.isLike = false) : (el.isLike = true);
+        }
+      });
+      const favorities = [];
+      me.records.forEach((el) => {
+        if (el.isLike) {
+          favorities.push({
+            id: el.id,
+            email: me.user.email,
+          });
+        }
+      });
+      localStorage.setItem("favorities", JSON.stringify(favorities));
+    },
+    lastPage() {
+      const me = this;
+      me.page = me.page + 3;
+      me.records = [];
+      me.loadNotices(me.page);
+    },
   },
   mounted() {
     const me = this;
@@ -66,7 +121,6 @@ export default {
 };
 </script>
 <style lang="css">
-
 .card-notice {
   border-radius: 1rem;
   box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.16), 0 2px 10px 0 rgba(0, 0, 0, 0.12);
@@ -122,18 +176,22 @@ export default {
   font-family: var(--fuente-roboto);
   font-size: 22px;
   font-weight: 700;
-  letter-spacing: .6px;
-  overflow: hidden; text-overflow: ellipsis;
-  display: -webkit-box; -webkit-line-clamp: 2;
+  letter-spacing: 0.6px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
 }
 .card-paragraph {
   color: var(--black-color);
   font-family: var(--fuente-poppins);
   font-size: 16px;
-  letter-spacing: .6px;
-  overflow: hidden; text-overflow: ellipsis;
-  display: -webkit-box; -webkit-line-clamp: 3;
+  letter-spacing: 0.6px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
   -webkit-box-orient: vertical;
 }
 /* ............. */

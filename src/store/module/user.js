@@ -20,8 +20,8 @@ export default
     },
   },
   actions: {
-    changeAuthenticated({ commit}, payload, state) {
-      commit("setAuthenticated", state);
+    changeAuthenticated({ commit}, payload) {
+      commit("setAuthenticated", payload.authenticated);
       commit("setUser", payload);
     }
   },

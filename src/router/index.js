@@ -1,13 +1,13 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-import Home from '@/views/Home.vue'
+// import Home from '@/views/Home.vue'
 
 Vue.use(VueRouter)
 
 const routes = [
   {
     path: '/',
-    component: Home,
+    component: () => import(/* webpackChunkName: "Home" */ '@/views/Home'),
     meta: {
       requireAuth: true,
     },
@@ -15,7 +15,7 @@ const routes = [
   {
     path: '/inicio',
     name: 'Home',
-    component: Home,
+    component: () => import(/* webpackChunkName: "Home" */ '@/views/Home'),
     meta: {
       requireAuth: true,
     },

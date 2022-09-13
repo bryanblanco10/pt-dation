@@ -1,35 +1,42 @@
 <template>
-  <router-link :to="{ name: 'Detail', params: { slug: item.slug }}">
     <b-card class="card-notice overflow-hidden p-0 h-100" no-body v-if="item">
-    <img :src="loadImg(item.img)" :alt="item.title" />
+      <router-link :to="{ name: 'Detail', params: { slug: item.slug }}">
+        <img class="img-card" :src="loadImg(item.img)" :alt="item.title" />
+      </router-link>
     <div class="contend-card">
       <p class="caption">
         <strong>Por</strong> {{ item.caption }}
       </p>
       <div class="content-circles mt-1">
-        <div class="content-circles">
-          <span class="circle1" />
-          <span class="circle-title"> Covid </span>
-        </div>
-        <div class="content-circles">
-          <span class="circle2" />
-          <span class="circle-title"> Salud </span>
+        <div class="content-circles" v-for="(category, index) in item.categories" :key="index">
+          <span class="circle" :style="{ backgroundColor: category.color }" />
+          <span class="circle-title"> {{ category.title }} </span>
         </div>
       </div>
-      <h3 class="title-card">
-        {{ item.title }}
-      </h3>
+      <router-link :to="{ name: 'Detail', params: { slug: item.slug }}">
+        <h3 class="title-card">
+          {{ item.title }}
+        </h3>
+      </router-link>
       <p class="card-paragraph">
         {{ item.description }}
       </p>
+      <div class="content-like">
+        <button @click.prevent="() => $emit('addRemoveFavorite', item.id)">
+          <b-icon-heart-fill class="icon_heart_fill" v-if="item.isLike" />
+          <b-icon-heart class="icon_heart" v-else />
+        </button>
+      </div>
     </div>
     </b-card>
-  </router-link>
-  
 </template>
 
 <script>
-import { BCard } from "bootstrap-vue";
+import { 
+  BCard, 
+  BIconHeart,
+  BIconHeartFill,
+ } from "bootstrap-vue";
 export default {
   props: {
     item: {
@@ -39,6 +46,8 @@ export default {
   },
   components: {
     BCard,
+    BIconHeart,
+    BIconHeartFill,
   },
   data() {
     return {};
@@ -55,11 +64,12 @@ export default {
 .card-notice {
   border-radius: 1rem;
   box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.16), 0 2px 10px 0 rgba(0, 0, 0, 0.12);
-  cursor: po;
+  cursor: pointer;
 }
 
-.card-notice img {
+.img-card {
   height: 200px;
+  width: 100%;
 }
 .contend-card {
   padding-left: 20px;
@@ -83,19 +93,11 @@ export default {
   margin-top: 5px;
   margin-bottom: 10px;
 }
-.circle1 {
+.circle {
   width: 15px;
   height: 15px;
   border-radius: 50%;
   margin-right: 5px;
-  background-color: var(--second-color);
-}
-.circle2 {
-  width: 15px;
-  height: 15px;
-  border-radius: 50%;
-  margin-right: 5px;
-  background-color: var(--third-color);
 }
 .circle-title {
   color: var(--black-color);
@@ -120,6 +122,25 @@ export default {
   display: -webkit-box;
   -webkit-line-clamp: 3;
   -webkit-box-orient: vertical;
+}
+.content-like {
+  display: flex;
+  justify-content: flex-end;
+  z-index: 4;
+  font-size: 25px;
+  color: var(--primary-color);
+}
+.content-like button {
+  margin: 0;
+  padding: 0;
+  border: none;
+  background-color: transparent;
+}
+.icon_heart_fill {
+  color: var(--primary-color);
+}
+.icon_heart {
+  color: var(--primary-color);
 }
 /* ............. */
 /*Media querys*/

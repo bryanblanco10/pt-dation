@@ -1,7 +1,8 @@
 import data from "../notices.json";
 export default {
-  async getAll() {
-    return data;
+  async getAll(page) {
+    const results = data.data.slice(0, page)
+    return results;
   },
   async search(value) {
     const results = data.data.filter((el) => {

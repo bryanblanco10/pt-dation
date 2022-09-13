@@ -181,8 +181,10 @@ export default {
       const token = generateToken();
       localStorage.setItem("access_token", token);
       localStorage.setItem("authenticated", true);
-      me.changeAuthenticated(me.formData, true);
-      me.$router.push("/inicio");
+      localStorage.setItem("user", JSON.stringify(me.formData));
+      me.changeAuthenticated({ ...me.formData, authenticated: true });
+      window.location.reload();
+      // me.$router.push("/inicio");
     },
   },
 };
