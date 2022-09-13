@@ -6,16 +6,17 @@ export default {
   },
   async search(value) {
     const results = data.data.filter((el) => {
+      value.toLowerCase();
       const title = el.title.toLowerCase();
       const description = el.description.toLowerCase();
       const caption = el.caption.toLowerCase();
 
-      // const some = el.categories.some(item => item.title.includes(value));
-      // console.log(some)
+      const some = el.categories.some(item => item.title.toLocaleLowerCase().includes(value));
       return (
         title.includes(value) ||
         description.includes(value) ||
-        caption.includes(value)
+        caption.includes(value) ||
+        some
       );
     });
 
