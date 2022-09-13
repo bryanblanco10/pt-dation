@@ -10,6 +10,8 @@ export default {
       const description = el.description.toLowerCase();
       const caption = el.caption.toLowerCase();
 
+      // const some = el.categories.some(item => item.title.includes(value));
+      // console.log(some)
       return (
         title.includes(value) ||
         description.includes(value) ||
